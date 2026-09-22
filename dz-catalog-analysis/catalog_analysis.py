@@ -1,3 +1,5 @@
+import math
+
 movies = [
     {"title": "The Dune Chronicles", "year": 2021, "genres": {"sci-fi", "drama"},
      "rating": 8.6, "duration_min": 155, 
@@ -20,7 +22,21 @@ movies = [
      "rating": 6.0, "duration_min": 95, "actors": ["A. Novak", "K. Lee"]},
     {"title": "Red Harbor", "year": 2018, "genres": {"action", "thriller"},
      "rating": 7.3, "duration_min": 129, "actors": ["P. Diaz", "T. Chalamet"]},
-] 
+]
+
+def average_rating(movies):
+    return round(sum(m["rating"] for m in movies)/len(movies), 1)
+
+def catalog_age_stats(movies, current_year=2026):
+    return (
+        max(current_year-m["year"] for m in movies), 
+        min(current_year-m["year"] for m in movies), 
+        math.ceil(sum(current_year-m["year"]  for m in movies)/len(movies))
+    )
+
+def duration_in_hours(minutes):
+    return f'{minutes//60}ч {minutes%60}м'
+
 
 def main():
     print("Hello from dz-catalog-analysis!")
