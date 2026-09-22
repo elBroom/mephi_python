@@ -24,8 +24,10 @@ movies = [
      "rating": 7.3, "duration_min": 129, "actors": ["P. Diaz", "T. Chalamet"]},
 ]
 
+
 def average_rating(movies):
     return round(sum(m["rating"] for m in movies)/len(movies), 1)
+
 
 def catalog_age_stats(movies, current_year=2026):
     return (
@@ -34,8 +36,10 @@ def catalog_age_stats(movies, current_year=2026):
         math.ceil(sum(current_year-m["year"]  for m in movies)/len(movies))
     )
 
+
 def duration_in_hours(minutes):
     return f'{minutes//60}ч {minutes%60}м'
+
 
 def rating_tier(rating):
     if rating >= 9:
@@ -44,6 +48,7 @@ def rating_tier(rating):
         return "хорошо"
     else:
         return "средне" if rating >= 5 else "слабо"
+
 
 def decade_label(year):
     match year:
@@ -54,11 +59,36 @@ def decade_label(year):
        case _:
            return "старые"
 
+
+def count_long_movies(movies, threshold=120):
+    cnt = 0
+    for move in movies:
+        if move["duration_min"] > threshold:
+           cnt += 1
+    return cnt
+
+
+def normalize_title(title):
+    return " ".join(word[0].upper() + word[1:] for word in title.split())
+
+
+def make_slug(title):
+    return title.lower().replace(" ", "-")
+
+
+def format_report_line(movie):
+    duration = duration_in_hours(movie["duration_min"])
+    return (
+        f'"{movie["title"]}" ({movie["year"]}) — {movie["rating"]}/10, '+
+        f'{duration}, жанры: {", ".join(sorted(movie["genres"]))}'
+    )
+
+
 def main():
-    # for move in movies:
-    #     if "comedy" in move["genres"]:
-    #         continue
-    #     print(move["title"])
+    for move in movies:
+        if "comedy" in move["genres"]:
+            continue
+        print(move["title"])
 
     i = 0
     while i < len(movies):
@@ -68,7 +98,6 @@ def main():
         i += 1
     else:
         print("Шедевров не найдено")
-
 
 if __name__ == "__main__":
     main()
