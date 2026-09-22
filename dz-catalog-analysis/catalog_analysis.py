@@ -83,6 +83,16 @@ def format_report_line(movie):
         f'{duration}, жанры: {", ".join(sorted(movie["genres"]))}'
     )
 
+def titles_sorted_by_rating(movies):
+    return [m["title"] for m in sorted(movies, key=lambda m: m["rating"], reverse=True)]
+
+
+def top_n_by_rating(movies, n=3):
+    return [
+        (m["title"], m["rating"]) 
+        for m in sorted(movies, key=lambda m: m["rating"], reverse=True)
+    ][:n]
+
 
 def main():
     for move in movies:
