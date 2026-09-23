@@ -133,8 +133,37 @@ def get_high_move(movies):
     return {m["title"]: m["rating"] for m in movies if m["rating"] > avg}
 
 
+def all_genres(movies):
+    genres = set()
+    for m in movies:
+        genres |= m["genres"]
+    return genres
+
+
+def common_actors(movie1, movie2):
+    return set(movie1["actors"]) & set(movie2["actors"])
+
+
+def genres_only_in_one(movies_a, movies_b):
+    genres = set()
+    for m in movies_a:
+        genres |= m["genres"]
+    for m in movies_b:
+        genres -= m["genres"]
+    return genres
+
+
+def iter_high_rated(movies, min_rating=8.0):
+    for m in movies:
+        if m["rating"] >= min_rating:
+            yield m
+
+
 def main():
-    print("main")
+    for movie in iter_high_rated(movies):
+        print(format_report_line(movie))
+
+    print(sum(m["duration_min"] for m in movies if m["rating"] > 7))
 
 
 if __name__ == "__main__":
