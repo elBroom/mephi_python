@@ -60,6 +60,24 @@ def decade_label(year):
            return "старые"
 
 
+def get_no_comedy(movie):
+    for move in movies:
+        if "comedy" in move["genres"]:
+            continue
+        print(move["title"])
+
+
+def find_masterpiece(movie):
+    i = 0
+    while i < len(movies):
+        if movies[i]["rating"] >= 9:
+            print(movies[i]["title"])
+            break
+        i += 1
+    else:
+        print("Шедевров не найдено")
+
+
 def count_long_movies(movies, threshold=120):
     cnt = 0
     for move in movies:
@@ -94,20 +112,30 @@ def top_n_by_rating(movies, n=3):
     ][:n]
 
 
-def main():
-    for move in movies:
-        if "comedy" in move["genres"]:
-            continue
-        print(move["title"])
+def count_by_genre(movies):
+    genres = {}
+    for m in movies:
+        for g in m["genres"]:
+            genres[g] = genres.get(g, 0) + 1
+    return genres
 
-    i = 0
-    while i < len(movies):
-        if movies[i]["rating"] >= 9:
-            print(movies[i]["title"])
-            break
-        i += 1
-    else:
-        print("Шедевров не найдено")
+
+def actor_filmography(movies):
+    actors = {}
+    for m in movies:
+        for a in m["actors"]:
+            actors[a] = actors.get(a, []) + [m["title"]]
+    return actors
+
+
+def get_high_move(movies):
+    avg = average_rating(movies)
+    return {m["title"]: m["rating"] for m in movies if m["rating"] > avg}
+
+
+def main():
+    print("main")
+
 
 if __name__ == "__main__":
     main()
